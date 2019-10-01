@@ -1,58 +1,88 @@
 const Node = require('./node');
 
-class LinkedList {
+class LinkedList extends Array {
     constructor() {
-        this.list = [];
+        super();
         this.setProperties();
 
     }
 
     setProperties() {
-        this.length = this.list.length;
-        this._head = this.list[0];
-        this._tail = this.list[this.length - 1];
+        this._head = this[0];
+        this._tail = this[this.length - 1];
     }
 
     append(data) {
-        const prev = this.list.length - 1;
-        this.list.push(new Node(data, prev));
+        const prev = this.length - 1;
+        this.push(new Node(data, prev));
         this.setProperties();
+
+        return this;
     }
 
     head() {
-        return this.list[0].data;
+        if (this[0]) {
+            return this[0].data;
+        }
+        
+        return null;
     }
 
     tail() {
-        return this.list[this.length - 1].data;
+        if (this.length) {
+            return this[this.length - 1].data;
+        }
+        
+        return null;
     }
 
     at(index) {
-        return this.list[index].data;
+        return this[index].data;
     }
 
     insertAt(index, data) {
-        this.list.splice(index, 0, new Node(data));
+        this.splice(index, 0, new Node(data));
         this.setProperties();
+
+        return this;
     }
 
     isEmpty() {
-        return !this.list.length;
+        return !this.length;
     }
 
     clear() {
-        this.list = [];
-        this.setProperties();
+        this.length = 0;
+
+        return this;
     }
 
-    deleteAt(index) {}
+    deleteAt(index) {
+        if (this[index]) {
+            this.splice(index, 1);
+        }
 
-    reverse() {
-        this.list.reverse();
+        return this;
     }
+
+    /*reverse() {
+        return this;
+
+    }*/
 
     indexOf(data) {
+        let index = -1;
+        this.filter((item, i) => {
+            if (index >= 0) {
+                return;
+            }
 
+            if (item.data === data) {
+                index = i;
+            }
+        });
+
+        return index;
     }
 }
 
